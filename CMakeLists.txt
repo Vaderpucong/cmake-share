@@ -115,11 +115,21 @@ endif()
 
 set(CMAKE_C_STANDARD 11)
 
-add_executable(cmake_share main.c)
-
-
-add_custom_command(
-        TARGET cmake_share
-        POST_BUILD
-        COMMAND mv cmake_share cmake_share_test
+include_directories("utils")
+add_library(utils SHARED
+        utils/test_library.c
 )
+set_property(TARGET utils PROPERTY POSITION_INDEPENDENT_CODE ON)
+
+
+
+
+add_executable(cmake_share main.c)
+target_link_libraries(cmake_share utils)
+
+
+#add_custom_command(
+#        TARGET cmake_share
+#        POST_BUILD
+#        COMMAND mv cmake_share cmake_share_test
+#)
